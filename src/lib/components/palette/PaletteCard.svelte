@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { goto, invalidate } from '$app/navigation';
 	import type { PaletteCardColors } from '$lib/types/types';
 	import Heart from '$lib/components/icon/Heart.svelte';
 	import { likeStore } from '$lib/store/likeStore';
@@ -12,6 +13,10 @@
 	$: isLiked = $likeStore.find((like) => like.palette === id);
 
 	const handleLike = async () => {
+		if (!$page.data.session) {
+			goto('/login');
+		}
+
 		if (isLiked) {
 			await fetch(`/api/likes/${id}`, {
 				method: 'DELETE'
