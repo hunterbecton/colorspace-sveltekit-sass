@@ -1,0 +1,73 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.5;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+	isolation: isolate;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 700;
+	src: url('/fonts/subset-Poppins-Bold.woff2') format('woff2'),
+		url('/fonts/subset-Poppins-Bold.woff') format('woff');
+	font-family: 'Poppins';
+	font-display: optional;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 400;
+	src: url('/fonts/subset-Poppins-Regular.woff2') format('woff2'),
+		url('/fonts/subset-Poppins-Regular.woff') format('woff');
+	font-family: 'Poppins';
+	font-display: optional;
+}
+
+body {
+	background-color: $neutral-one;
+	font-family: 'Poppins', ui-sans-serif, system-ui, 'Helvetica Neue', Arial, sans-serif;
+}
