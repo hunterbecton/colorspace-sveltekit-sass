@@ -12,8 +12,8 @@
 
 	let likeSubscription: RealtimeChannel | null = null;
 
-	let { supabase, session } = data
-	$: ({ supabase, session } = data)
+	let { supabase, session } = data;
+	$: ({ supabase, session } = data);
 
 	page.subscribe(async () => {
 		if (session && !likeSubscription) {
@@ -33,7 +33,7 @@
 					'postgres_changes',
 					{
 						event: 'INSERT',
-						schema: 'public',
+						schema: 'colorspace',
 						table: 'palettes_likes',
 						filter: `profile=eq.${session.user.id}`
 					},
@@ -43,7 +43,7 @@
 					'postgres_changes',
 					{
 						event: 'DELETE',
-						schema: 'public',
+						schema: 'colorspace',
 						table: 'palettes_likes',
 						filter: `profile=eq.${session.user.id}`
 					},
@@ -56,12 +56,12 @@
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
-				invalidate('supabase:auth')
+				invalidate('supabase:auth');
 			}
-		})
+		});
 
-		return () => data.subscription.unsubscribe()
-	})
+		return () => data.subscription.unsubscribe();
+	});
 </script>
 
 <Toast />

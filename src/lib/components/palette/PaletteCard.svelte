@@ -4,9 +4,10 @@
 	import type { PaletteCardColors } from '$lib/types/types';
 	import Heart from '$lib/components/icon/Heart.svelte';
 	import { likeStore } from '$lib/store/likeStore';
+	import HeartLiked from '../icon/HeartLiked.svelte';
 
 	export let palettes: PaletteCardColors[];
-	export let likes: number = 0;
+	export let likes = 0;
 	export let slug = '/';
 	export let id = 0;
 
@@ -34,24 +35,60 @@
 	};
 </script>
 
-<div class="card">
-	<a href={slug} class="colors">
+<article class="card">
+	<div class="colors">
 		{#each palettes as { color: { hex } }}
 			<div class="color" style="background-color: {hex}" />
 		{/each}
+	</div>
+	<a href={slug}>
+		<span> View palette </span>
 	</a>
-	<button type="button" on:click={handleLike}>
-		<Heart class="{isLiked ? 'favorite-icon favorite-icon--liked' : 'favorite-icon'} " />
-		{likes}
-	</button>
-</div>
+	<div class="overlay">
+		<button type="button" on:click={handleLike}>
+			{#if isLiked}
+				<HeartLiked class="favorite-icon favorite-icon--liked" />
+			{:else}
+				<Heart class="favorite-icon" />
+			{/if}
+			{likes}
+		</button>
+	</div>
+</article>
 
 <style lang="scss">
 	.card {
+		height: 10.75rem;
+		position: relative;
 		border: 1px solid $neutral-three;
 		border-radius: 0.5rem;
 		background-color: $neutral-one;
 		padding: 2rem 0.5rem 1rem;
+	}
+
+	.card:hover {
+		.color {
+			margin-right: calc(-1rem + 1px);
+			margin-left: calc(-1rem + 1px);
+		}
+	}
+
+	a {
+		text-decoration: none;
+		position: absolute;
+		inset: 0;
+		border-radius: 0.5rem;
+	}
+
+	a:focus-visible {
+		outline-color: $brand-five;
+		outline-style: solid;
+		outline-width: 2px;
+		outline-offset: 2px;
+	}
+
+	a span {
+		@include sr-only;
 	}
 
 	.colors {
@@ -76,18 +113,15 @@
 		height: 4rem;
 	}
 
-	.colors:hover {
-		.color {
-			margin-right: calc(-1rem + 1px);
-			margin-left: calc(-1rem + 1px);
-		}
-	}
-
-	.colors:focus-visible {
-		outline-color: $brand-five;
-		outline-style: solid;
-		outline-width: 2px;
-		outline-offset: 2px;
+	.overlay {
+		z-index: 2;
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		padding: 1rem;
+		pointer-events: none;
 	}
 
 	button {
@@ -95,13 +129,12 @@
 		display: flex;
 		align-items: center;
 		cursor: pointer;
-		margin-top: 2rem;
-		margin-left: auto;
 		border: 1px solid $neutral-three;
 		border-radius: 0.5rem;
 		background-color: $neutral-one;
 		padding: 0.25rem 0.5rem;
 		color: $neutral-seven;
+		pointer-events: auto;
 	}
 
 	:global(.favorite-icon) {
