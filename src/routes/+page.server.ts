@@ -10,7 +10,7 @@ export const load = async ({ depends, locals: { supabase } }) => {
 		.returns<PaletteCard[]>();
 
 	if (supabaseError) {
-		throw error(500, supabaseError.message);
+		error(500, supabaseError.message);
 	}
 
 	return { palettes };

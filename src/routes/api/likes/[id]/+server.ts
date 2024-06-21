@@ -1,10 +1,10 @@
 import { error } from '@sveltejs/kit';
 
-export const DELETE = async ({ params, locals: { supabase, getSession } }) => {
-	const session = await getSession();
+export const DELETE = async ({ params, locals: { supabase, safeGetSession } }) => {
+	const session = await safeGetSession();
 
 	if (!session) {
-		throw error(401, { message: 'Unauthorized' });
+		error(401, { message: 'Unauthorized' });
 	}
 
 	const { id } = params;
@@ -15,7 +15,7 @@ export const DELETE = async ({ params, locals: { supabase, getSession } }) => {
 		.match({ profile: session.user.id, palette: id });
 
 	if (supabaseError) {
-		throw error(500, supabaseError.message);
+		error(500, supabaseError.message);
 	}
 
 	return new Response(JSON.stringify({ success: true }), { status: 200 });

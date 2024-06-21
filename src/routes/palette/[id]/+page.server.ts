@@ -15,11 +15,11 @@ export const load = async ({ depends, params: { id }, locals: { supabase } }) =>
 			.single();
 
 		if (supabaseError) {
-			throw error(500, supabaseError.message);
+			error(500, supabaseError.message);
 		}
 
 		if (!palette) {
-			throw error(404, 'Palette not found');
+			error(404, 'Palette not found');
 		}
 
 		return palette;
@@ -34,14 +34,14 @@ export const load = async ({ depends, params: { id }, locals: { supabase } }) =>
 			.returns<PaletteCard[]>();
 
 		if (supabaseError) {
-			throw error(500, supabaseError.message);
+			error(500, supabaseError.message);
 		}
 
 		return palettes;
 	};
 
 	return {
-		palette: fetchColors(),
-		palettes: fetchRandomPalettes()
+		palette: await fetchColors(),
+		palettes: await fetchRandomPalettes()
 	};
 };

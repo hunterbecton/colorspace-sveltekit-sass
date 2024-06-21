@@ -12,7 +12,8 @@
 
 	let likeSubscription: RealtimeChannel | null = null;
 
-	$: ({ supabase, session } = data);
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
 
 	page.subscribe(async () => {
 		if (session && !likeSubscription) {
@@ -53,17 +54,14 @@
 	});
 
 	onMount(() => {
-		const {
-			data: { subscription }
-		} = supabase.auth.onAuthStateChange(() => {
-			invalidate('supabase:auth');
-		});
+		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth')
+			}
+		})
 
-		return () => {
-			subscription.unsubscribe();
-			supabase.removeAllChannels();
-		};
-	});
+		return () => data.subscription.unsubscribe()
+	})
 </script>
 
 <Toast />
