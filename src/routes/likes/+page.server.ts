@@ -1,13 +1,13 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PaletteCard } from '$lib/types/types';
 
-export const load = async ({ depends, locals: { supabase, getSession } }) => {
+export const load = async ({ depends, locals: { supabase, safeGetSession } }) => {
 	depends('palettes');
 
-	const session = await getSession();
+	const session = await safeGetSession();
 
 	if (!session) {
-		throw redirect(301, '/');
+		redirect(301, '/');
 	}
 
 	let { data: palettes, error: supabaseError } = await supabase
@@ -19,7 +19,7 @@ export const load = async ({ depends, locals: { supabase, getSession } }) => {
 		.returns<PaletteCard[]>();
 
 	if (supabaseError) {
-		throw error(500, supabaseError.message);
+		error(500, supabaseError.message);
 	}
 
 	return { palettes };
