@@ -8,11 +8,15 @@
 	export let data;
 
 	$: ({ palette, palettes } = data);
+
+	const goBack = () => {
+		window.history.back();
+	};
 </script>
 
 <PageLayout>
 	<MaxWidth>
-		<Button size="small" as="link" href="/likes" text="Back" />
+		<Button on:click={goBack} size="small" as="button" type="button" text="Back" />
 		<PaletteColorGrid {palette} />
 		{#if palettes}
 			<div>
