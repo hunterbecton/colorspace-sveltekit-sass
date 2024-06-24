@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import { invalidateAll } from '$app/navigation';
 
 	import Button from '$lib/components/button/Button.svelte';
