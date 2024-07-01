@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import PageHeader from '$lib/components/header/PageHeader.svelte';
 	import MaxWidth from '$lib/components/layout/MaxWidth.svelte';
 	import PageLayout from '$lib/components/layout/PageLayout.svelte';
